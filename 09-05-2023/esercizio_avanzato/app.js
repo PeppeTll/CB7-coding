@@ -1,4 +1,4 @@
-// ESERCIZIO 2********************************************************
+// ESERCIZIO AVANZATO********************************************************
 const addListItem = () => {
   const listItem = document.createElement('li');
   listItem.textContent = `list item ${num}`;
@@ -13,4 +13,4 @@ let num = 0
 
 btnAdd.addEventListener('click', addListItem);
 
-// ESERCIZIO 2********************************************************
+// ESERCIZIO AVANZATO********************************************************
