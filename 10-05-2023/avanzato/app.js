@@ -3,7 +3,7 @@ const qSA = (el) => document.querySelectorAll(el);
 const cE = (el) => document.createElement(el);
 const cA = (el) => document.createAttribute(el);
 
-const listCalcButton = ['AC', '?', '%', '/', '7', '8', '9', '*', '4', '5', '6', '-', '1', '2', '3', '+', 'R', '0', '.', '=']
+const listCalcButton = ['AC', '<-', '%', '/', '7', '8', '9', '*', '4', '5', '6', '-', '1', '2', '3', '+', '00', '0', '.', '=']
 const listOpt = ['-', '*', '%', '/', '+']
 const inputWrapper = qS('.input_wrapper')
 const lightButton = qS('.light_button')
@@ -48,9 +48,20 @@ visualMode.addEventListener('click', (e) => {
 
 inputWrapper.addEventListener('click', (e) => {
   e.target.dataset.value != '=' ? list.textContent += e.target.dataset.value : ''
-  if (e.target.dataset.value === "=") {
-    list.textContent = eval(list.textContent)
-  } else if (e.target.dataset.value === 'AC') {
-    list.textContent = ''
-  }
+  switch (e.target.dataset.value) {
+    case '=':
+      list.textContent = eval(list.textContent)
+      break;
+    case 'AC':
+      list.textContent = ''
+      break;
+    case '<-':
+      list.textContent = list.textContent.slice(0, -3)
+      break;
+  };
+  // if (e.target.dataset.value === "=") {
+  //   list.textContent = eval(list.textContent)
+  // } else if (e.target.dataset.value === 'AC') {
+  //   list.textContent = ''
+  // }
 });
