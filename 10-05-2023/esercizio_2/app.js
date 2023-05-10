@@ -1,3 +1,9 @@
+const somma = (num1, num2) => num1 + num2;
+const moltp = (num1, num2) => num1 * num2;
+const sotrz = (num1, num2) => num1 - num2;
+const div = (num1, num2) => num1 / num2;
+const prod = (num1, num2) => num1 % num2;
+
 const qS = (el) => document.querySelector(el);
 const qSA = (el) => document.querySelectorAll(el);
 const cE = (el) => document.createElement(el);
@@ -33,13 +39,6 @@ visualMode.addEventListener('click', (e) => {
     btnDark.classList.add('dark');
   }
 });
-
-const somma = (num1, num2) => num1 + num2;
-const moltp = (num1, num2) => num1 * num2;
-const sotrz = (num1, num2) => num1 - num2;
-const div = (num1, num2) => num1 / num2;
-const prod = (num1, num2) => num1 % num2;
-
 
 btnSub.addEventListener('click', () => {
   switch (optInput.value) {

@@ -12,6 +12,7 @@ const visualMode = qS('.visualMode_wrapper')
 const calcWrapper = qS('.calc_wrapper')
 const btnLight = qS('.light_button')
 const btnDark = qS('.dark_button')
+const list = qS('.list')
 
 // let inputOne = 0;
 // let inputTwo = 0;
@@ -41,5 +42,15 @@ visualMode.addEventListener('click', (e) => {
     btnLight.classList.add('dark');
     btnDark.classList.remove('light');
     btnDark.classList.add('dark');
+  }
+});
+
+
+inputWrapper.addEventListener('click', (e) => {
+  e.target.dataset.value != '=' ? list.textContent += e.target.dataset.value : ''
+  if (e.target.dataset.value === "=") {
+    list.textContent = eval(list.textContent)
+  } else if (e.target.dataset.value === 'AC') {
+    list.textContent = ''
   }
 });
