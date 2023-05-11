@@ -17,6 +17,7 @@ const showElement = () => {
 }
 
 const itemCheck = () => {
+  li_items = qSA('li');
   li_items.forEach(item => {
     item.addEventListener('click', e => {
       listData.forEach(obj => {
@@ -27,6 +28,13 @@ const itemCheck = () => {
       })
     })
   })
+}
+
+const removeEvt = () => {
+  // li_items = qSA('li');
+  li_items.forEach(item => {
+    item.removeEventListener('click', e => { })
+  });
 }
 
 const qS = el => document.querySelector(el);
@@ -76,8 +84,9 @@ const listData = [
 
 showElement();
 
-const li_items = qSA('li');
+let li_items = [];
 
+itemCheck();
 
 input_El.addEventListener('change', (e) => {
   const inputObj = {
@@ -87,20 +96,13 @@ input_El.addEventListener('change', (e) => {
   }
   ul_El.textContent = '';
   listData.push(inputObj);
+  removeEvt()
   e.target.value = ''
   showElement();
+  itemCheck();
 });
 
-li_items.forEach(item => {
-  item.addEventListener('click', e => {
-    listData.forEach(obj => {
-      if (obj.id === parseInt(e.target.dataset.value)) {
-        obj.check = !obj.check
-        item.classList.toggle('check')
-      }
-    })
-  })
-})
+
 
 btnDel.addEventListener('click', () => {
   listData.forEach((item, i) => {
@@ -108,11 +110,11 @@ btnDel.addEventListener('click', () => {
       listData.splice(i, 1);
     }
   })
+  removeEvt()
   ul_El.textContent = ''
   showElement();
-  console.log(listData)
+  itemCheck();
 });
-
 
 
 
