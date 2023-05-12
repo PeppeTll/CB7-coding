@@ -21,10 +21,10 @@ const cE = el => document.createElement(el);
 const imageSlideEl = qS('.imageSlide');
 const boxWrapperEl = qS('.box_wrapper');
 const imageList = [
-  './img/demon-slayer-kimetsu-no-yaiba-kokushibo-in-front-of-the-crescent-wallpaper-640x960_169.jpg',
-  './img/desktop-wallpaper-demon-slayer-high-quality-demon-slayer-demon-slayer-phone.jpg',
-  './img/EIr3lB8XkAMYKBf.jpg',
-  './img/HD-wallpaper-zenitsu-art-anime-anime-demon-slayer-demon-slayer-demon-slayers.jpg'
+  './img/172129-anime-dragon_ball_super-goku-zamasu-dragon_ball-x750.jpg',
+  './img/340761.webp',
+  './img/son-goku-dragon-ball-super-dark-5k-zd.jpg',
+  './img/thumb-1920-564835.jpg',
 ];
 let index = 0
 
