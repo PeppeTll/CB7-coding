@@ -56,6 +56,8 @@ const cardWrapper = qS('.card_wrapper');
 const filterForm = qS('.filter__form');
 const selectCategory = qS('.filter__select');
 const searchbar = qS('.navbar__input');
+const burgher = qS('.burgher');
+const navLinks = qS('.navbar__links__ul');
 
 fetch('https://dummyjson.com/products/categories')
   .then(res => res.json())
@@ -109,3 +111,7 @@ searchbar.addEventListener('change', (e) => {
       });
   }
 })
+
+burgher.addEventListener('click', (e) => {
+  navLinks.classList.toggle('active');
+});
