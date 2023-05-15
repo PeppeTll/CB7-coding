@@ -15,16 +15,27 @@ const createEl = (el, cls = '') => {
   return element;
 };
 
+// intervallo che cambia immagine nello slider
+const slideInterval = () => {
+  setInterval(() => {
+    imageSlideEl.src = imageList[index]
+    imageSlideEl.alt = 'Demon Slayer Art'
+    index++;
+    console.log(index)
+    index > imageList.length - 1 ? index = 0 : index
+  }, 3000);
+};
+
 const qS = el => document.querySelector(el);
 const cE = el => document.createElement(el);
 
 const imageSlideEl = qS('.imageSlide');
 const boxWrapperEl = qS('.box_wrapper');
 const imageList = [
-  './img/172129-anime-dragon_ball_super-goku-zamasu-dragon_ball-x750.jpg',
-  './img/340761.webp',
-  './img/son-goku-dragon-ball-super-dark-5k-zd.jpg',
-  './img/thumb-1920-564835.jpg',
+  './img/img_1.jpg',
+  './img/img_2.jpg',
+  './img/img_3.jpg',
+  './img/img_4.jpg',
 ];
 let index = 0
 
@@ -41,18 +52,18 @@ for (let i in imageList) {
   boxWrapperEl.appendChild(element1);
 }
 
+slideInterval();
+
 // Cambia immagine con il click
 boxWrapperEl.addEventListener('click', (e) => {
+
   clearInterval(slideInterval);
+  index = 0;
   const i = parseInt(e.target.dataset.id);
-  console.log(e.target.dataset.id);
   imageSlideEl.src = imageList[i];
+  const timeoutEvent = setTimeout(() => {
+    slideInterval();
+    clearTimeout(timeoutEvent)
+  }, 3000)
 })
 
-// intervallo di che cambia immagine nello slider
-const slideInterval = setInterval(() => {
-  imageSlideEl.src = imageList[index]
-  imageSlideEl.alt = 'Demon Slayer Art'
-  index++;
-  index > imageList.length - 1 ? index = 0 : index
-}, 3000);
