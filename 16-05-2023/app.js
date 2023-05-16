@@ -33,8 +33,11 @@ const createCard = (obj) => {
   cardEl.className = 'card';
   figureEl.className = 'card__figure';
   imgEl.className = 'card__img';
+  cardTitleEL.className = 'card_title';
+  descriptionEl.className = 'description';
   textWrapEl.className = 'card__text';
   cardPriceWrap.className = 'card__price';
+  starsWrap.className = 'stars_el'
 
   imgEl.src = obj.thumbnail;
   imgEl.alt = obj.title;
