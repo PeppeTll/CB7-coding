@@ -2,8 +2,8 @@ const createCardFnc = () => {
   fetch('https://dummyjson.com/products')
     .then(res => res.json())
     .then(data => {
-      data.products.forEach(el => {
-        listEl.push(el);
+      listEl = data.products
+      listEl.forEach(el => {
         cardWrapper.appendChild(createCard(el));
       })
     })
@@ -152,7 +152,7 @@ const selectCategory = qS('.filter__select');
 const searchbar = qS('.navbar__input');
 const burgher = qS('.burgher');
 const navLinks = qS('.navbar__links__ul');
-const listEl = []
+let listEl = []
 
 fetch('https://dummyjson.com/products/categories')
   .then(res => res.json())
@@ -176,34 +176,43 @@ selectCategory.addEventListener('change', (e) => {
   if (e.target.value === '') {
     createCardFnc();
   } else {
-    const category = e.target.value;
-    fetch(`https://dummyjson.com/products/category/${category}`)
-      .then(res => res.json())
-      .then(data => {
-        cardWrapper.textContent = '';
-        data.products.forEach(el => {
-          cardWrapper.appendChild(createCard(el));
-        })
-      })
+    /* Metoo con chiamata API */
+    // const category = e.target.value;
+    // fetch(`https://dummyjson.com/products/category/${category}`)
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     cardWrapper.textContent = '';
+    //     data.products.forEach(el => {
+    //       cardWrapper.appendChild(createCard(el));
+    //     })
+    //   })
+    cardWrapper.textContent = "";
+    listEl
+      .filter((el) => el.category.toLowerCase() === (e.target.value.toLowerCase()))
+      .forEach((obj) => cardWrapper.append(createCard(obj)))
   }
 });
 
-searchbar.addEventListener('change', (e) => {
-  e.preventDefault();
+searchbar.addEventListener('input', (e) => {
   if (e.target.value === '') {
     createCardFnc();
-    e.preventDefault();
   } else {
-    const query = e.target.value;
-    fetch(`https://dummyjson.com/products/search?q=${query}`)
-      .then(res => res.json())
-      .then(data => {
-        cardWrapper.textContent = '';
-        data.products.forEach(el => {
-          cardWrapper.appendChild(createCard(el));
-          e.preventDefault();
-        })
-      });
+    /** metodo ricerca con chiamata API e query */
+    // const query = e.target.value;
+    // fetch(`https://dummyjson.com/products/search?q=${query}`)
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     cardWrapper.textContent = '';
+    //     data.products.forEach(el => {
+    //       cardWrapper.appendChild(createCard(el));
+    //       e.preventDefault();
+    //     })
+    //   });
+    /** Metodo di ricerca con filter nella lista oggetti */
+    cardWrapper.textContent = "";
+    listEl
+      .filter((el) => el.description.toLowerCase().includes(e.target.value.toLowerCase()))
+      .forEach((obj) => cardWrapper.append(createCard(obj)))
   }
 })
 
