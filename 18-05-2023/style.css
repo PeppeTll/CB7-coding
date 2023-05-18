@@ -669,10 +669,21 @@
   }
 
   /*Show**************************************************************/
+  .overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff79;
+    z-index: 2;
+  }
+
   .wrap_show {
     position: fixed;
     top: 50%;
     left: 50%;
+    max-width: 1200px;
     transform: translate(-50%, -50%);
     z-index: 3;
     display: flex;

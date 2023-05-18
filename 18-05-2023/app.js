@@ -1,3 +1,9 @@
+/**
+ * Chiamata fetch che salva tutti i prodotti all'interno della lista listEl.
+ * Cicla sulla lista e crea le varie card dentro cardWrapper.
+ * EventListener su cardWrapper che mostra la show della relativa card.
+ * @date 18/5/2023 - 10:53:04
+ */
 const createCardFnc = () => {
   fetch('https://dummyjson.com/products')
     .then(res => res.json())
@@ -18,6 +24,14 @@ const createCardFnc = () => {
     });;
 };
 
+
+/**
+ * Creazione della card, riceve un oggetto come parametro e ritorna un elemento.
+ * @date 18/5/2023 - 10:57:28
+ *
+ * @param {obj}
+ * @returns {Element}
+ */
 const createCard = (obj) => {
   const cardEl = cE('div');
   const figureEl = cE('figure');
@@ -60,6 +74,15 @@ const createCard = (obj) => {
   return cardEl;
 }
 
+
+/**
+ * Creazione della card all'interno della modale del carrello.
+ * Riceve un oggetto (l'oggetto della card selezionata) e ritorna un elemento.
+ * @date 18/5/2023 - 11:11:57
+ *
+ * @param {*} obj
+ * @returns {Element}
+ */
 const createCart = (obj) => {
   const cartEl = cE('div');
   cartEl.className = 'cart_elemet_wrap'
@@ -78,7 +101,7 @@ const createCart = (obj) => {
   priceEl.textContent = `${obj.price} €`;
 
   const quantityEl = cE('h2');
-  quantityEl.textContent = quantity
+  quantityEl.textContent = quantity <= 0 ? 1 : quantity;
 
   const delEl = cE('div');
   delEl.innerHTML = '<i class="fa-solid fa-trash"></i>'
@@ -93,12 +116,25 @@ const createCart = (obj) => {
   return cartEl;
 }
 
+/**
+ * Aggiunta al carrello della cart tramite la funzione createCart(el)
+ * @date 18/5/2023 - 11:13:45
+ *
+ * @param {Event} e
+ */
 const addCart = (e) => {
   listEl.filter(el => el.id === parseInt(e.target.closest('.wrap_show').id))
     .forEach(el => modal.append(createCart(el)));
 }
 
+/**
+ * Creazione della modale e dell'overlay 
+ * @date 18/5/2023 - 11:29:27
+ *
+ * @param {object} obj
+ */
 const showCardInfo = (obj) => {
+  const overlayEl = cE('div');
   const wrapShowEl = cE('div');
   const wrapImageEl = cE('div');
   const figureThumbEl = cE('figure');
@@ -119,6 +155,7 @@ const showCardInfo = (obj) => {
 
   wrapShowEl.setAttribute('id', obj.id);
 
+  overlayEl.className = 'overlay'
   wrapShowEl.className = 'wrap_show';
   wrapImageEl.className = 'wrap_image';
   figureThumbEl.className = 'figure_thumb';
@@ -145,6 +182,7 @@ const showCardInfo = (obj) => {
   buttonBuyEl.innerHTML = '<i class="fa-solid fa-cart-shopping"></i>'
   buttonReturn.innerHTML = '<i class="fa-regular fa-circle-xmark"></i>'
   inputstockEl.type = 'number';
+  inputstockEl.default = 1;
 
   thumbnailEl.src = obj.thumbnail;
   thumbnailEl.alt = obj.title;
@@ -186,17 +224,22 @@ const showCardInfo = (obj) => {
   figureThumbEl.appendChild(thumbnailEl);
   wrapImageEl.append(figureThumbEl, wrapMiniSliderEl);
   wrapShowEl.append(wrapImageEl, wrapInfoEl, buttonReturn);
-  rootEl.appendChild(wrapShowEl);
+  overlayEl.appendChild(wrapShowEl)
+  rootEl.appendChild(overlayEl);
 
   wrapMiniSliderEl.addEventListener('click', (e) => {
     thumbnailEl.src = e.target.src;
   })
 
   if (rootEl) {
-    buttonReturn.addEventListener('click', () => rootEl.removeChild(wrapShowEl));
+    buttonReturn.addEventListener('click', () => rootEl.removeChild(overlayEl));
   }
 };
 
+/**
+ * creazione della modale del carrello
+ * @date 18/5/2023 - 11:30:51
+ */
 const createModal = () => {
   modal.className = 'cart_modal';
   navbar.appendChild(modal);
