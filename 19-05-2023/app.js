@@ -24,7 +24,6 @@ const createCardFnc = () => {
     });;
 };
 
-
 /**
  * Creazione della card, riceve un oggetto come parametro e ritorna un elemento.
  * @date 18/5/2023 - 10:57:28
@@ -73,7 +72,6 @@ const createCard = (obj) => {
 
   return cardEl;
 }
-
 
 /**
  * Creazione della card all'interno della modale del carrello.
@@ -246,10 +244,68 @@ const createModal = () => {
   navbar.appendChild(modal);
 };
 
+const createLogin = () => {
+  const loginOverlay = cE('div');
+  const modalLogin = cE('div');
+  const backgroundLogin = cE('img');
+  const imageLogin = cE('img');
+  const loginH2 = cE('h2');
+  const loginTextWrapper = cE('form');
+  const userName = cE('input');
+  const password = cE('input');
+  const submit = cE('input');
+
+  loginOverlay.className = 'login_overlay';
+  modalLogin.className = 'modal_login';
+  backgroundLogin.className = 'background_login';
+  imageLogin.className = 'image_login';
+  loginTextWrapper.className = 'login_text_wrap';
+  userName.className = '';
+  password.className = '';
+  submit.className = '';
+
+  backgroundLogin.src = './img/—Pngtree—purple abstract wave frame-elegant luxury_6549678.png';
+  backgroundLogin.alt = 'Pngtree—purple abstract wave frame';
+  imageLogin.src = './img/4d95e433-331d-4e89-a182-ca346c65614b@w1000.png'
+  imageLogin.alt = '4d95e433-331d-4e89-a182-ca346c65614b@w1000'
+  userName.setAttribute('placeholder', 'username');
+  password.setAttribute('placeholder', 'password');
+  loginH2.textContent = 'login';
+  submit.textContent = 'submit';
+
+  userName.setAttribute('type', 'text');
+  password.setAttribute('type', 'password');
+  submit.setAttribute('type', 'submit');
+
+  cardWrapper.textContent = '';
+
+  loginTextWrapper.addEventListener('submit', e => {
+    e.preventDefault();
+    const isAuth = !!dataUsers.find(user =>
+      user.userName.toLowerCase() === e.srcElement[0].value.toLowerCase() &&
+      user.password.toLowerCase() === e.srcElement[1].value.toLowerCase()
+    )
+    if (isAuth) {
+      setInterval(() => {
+        body.removeChild(loginOverlay);
+        body.removeChild(modalLogin);
+        createCardFnc();
+      }, 1200)
+      modalLogin.classList.add('login_true');
+    } else {
+      alert('username or password incorrect');
+    }
+  });
+
+
+  loginTextWrapper.append(loginH2, userName, password, submit);
+  modalLogin.append(backgroundLogin, imageLogin, loginTextWrapper);
+  body.append(loginOverlay, modalLogin);
+};
+
 
 const qS = el => document.querySelector(el);
 const cE = el => document.createElement(el);
-
 
 
 const cardWrapper = qS('.card_wrapper');
@@ -260,14 +316,30 @@ const searchbar = qS('.navbar__input');
 const burgher = qS('.burgher');
 const navLinks = qS('.navbar__links__ul');
 const cartButton = qS('.button_buy');
+const body = qS('body');
 const cart = qS('.cart');
 const modal = cE('div');
 let listEl = [];
 const rootEl = qS('#root');
 let quantity = 0;
 let stock = 0;
-
-
+const dataUsers = [
+  {
+    id: '1',
+    userName: 'prova',
+    password: 'prova',
+  },
+  {
+    id: '2',
+    userName: 'casicasi',
+    password: 'miromiro',
+  },
+  {
+    id: '3',
+    userName: 'mirocasi',
+    password: 'casimiro',
+  },
+];
 
 
 fetch('https://dummyjson.com/products/categories')
@@ -286,12 +358,14 @@ fetch('https://dummyjson.com/products/categories')
     }
   });
 
-createCardFnc();
+createLogin();
+
 createModal();
 
 selectCategory.addEventListener('change', (e) => {
   if (e.target.value === '') {
-    createCardFnc();
+    cardWrapper.textContent = "";
+    listEl.map(obj => cardWrapper.appendChild(createCard(obj)))
   } else {
     /* Metoo con chiamata API */
     // const category = e.target.value;
