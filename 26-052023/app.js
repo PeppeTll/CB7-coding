@@ -13,10 +13,12 @@ const createEl = (type, cls = null, textContent = null, parent = null, ...attrs)
   return element;
 };
 
-const getTodoList = () => {
+const getTodoList = (parent) => {
   try {
     localList = JSON.parse(localStorage.getItem('localList')) || [];
-    return localList
+    if (localList.length > 0) {
+      localList.forEach(todo => createTodoEl(todo, parent));
+    }
   } catch (err) {
     console.warn({
       success: false,
@@ -49,7 +51,7 @@ const deleteTodo = (id) => {
   };
 };
 
-const createTodoList = (todos, userName) => {
+const createTodoList = (userName) => {
   const todoWrap = createEl('div', 'wrapTodo', null, mainEl);
   const todoUser = createEl('h1', 'titleTodo', `todo di ${userName}`, todoWrap);
   const addTodoForm = createEl('form', 'addTodoForm', null, todoWrap);
@@ -57,7 +59,7 @@ const createTodoList = (todos, userName) => {
   const submitForm = createEl('input', 'submitTodo', 'aggiungi todo', addTodoForm, { name: 'type', value: 'submit' });
   const todoList = createEl('div', 'wrapTodoList', null, todoWrap);
 
-  getTodoList().forEach(todo => createTodoEl(todo, todoList))
+  getTodoList(todoList)
 
   addTodoForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -69,11 +71,12 @@ const createTodoList = (todos, userName) => {
     postTodo(todo);
     e.target[0].value = '';
     todoList.textContent = '';
-    getTodoList().forEach(todo => createTodoEl(todo, todoList))
+    getTodoList(todoList)
   });
 
   return todoWrap;
 }
+
 
 const createTodoEl = (obj, parent) => {
   const todoEl = createEl('div', 'todoEl', null, parent);
@@ -81,20 +84,21 @@ const createTodoEl = (obj, parent) => {
   const todoDescriptionEl = createEl('p', 'todoDescription', obj.todo, todoEl);
   const deleteTodoEl = createEl('i', 'fa-solid fa-trash', null, todoEl);
 
+  const todoList = qS('.wrapTodoList');
+
   deleteTodoEl.addEventListener('click', (e) => {
     deleteTodo(obj.id);
     parent.textContent = '';
-    getTodoList().forEach(todo => createTodoEl(todo, parent))
+    getTodoList(todoList)
   });
 
   checkTodoEl.addEventListener('click', (e) => {
-    const localTodoEl = getTodoList().find(todo => todo.id === obj.id);
-    console.log(localTodoEl);
+    const localTodoEl = localList.find(todo => todo.id === obj.id);
     deleteTodo(localTodoEl.id);
     localTodoEl.completed = !localTodoEl.completed;
     postTodo(localTodoEl)
     parent.textContent = '';
-    getTodoList().forEach(todo => createTodoEl(todo, parent));
+    getTodoList(todoList)
   });
 
   return todoEl;
@@ -119,7 +123,7 @@ const createLoginForm = () => {
     );
     if (userLog) {
       mainEl.textContent = '';
-      createTodoList(localList, userLog.username)
+      createTodoList(userLog.username)
     }
   })
 
@@ -127,7 +131,8 @@ const createLoginForm = () => {
 }
 
 const mainEl = qS('.main');
-let localList = JSON.parse(localStorage.getItem('localList')) || [];
+let localList = [];
 
-getTodoList()
+
+
 createLoginForm();
